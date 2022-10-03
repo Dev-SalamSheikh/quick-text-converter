@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 const Form = () => {
   // States
   const [inputText, setInputText] = useState("");
+  const [result, setResult] = useState("");
   const [showCopyButton, setShowCopyButton] = useState(false);
   const [upperactive, setUpperActive] = useState(false);
   const [lowerActive, setLowerActive] = useState(false);
@@ -14,9 +15,9 @@ const Form = () => {
 
   // UpperCase Funtion
   const toUpperCase = () => {
-    let inputValue = document.getElementById("msgBox");
+    const mainValue = inputText.toUpperCase();
 
-    if (inputValue.value.length === 0) {
+    if (mainValue.length === 0) {
       setShowCopyButton(false);
       Swal.fire(
         "Sorry",
@@ -24,8 +25,7 @@ const Form = () => {
         "warning"
       );
     } else {
-      let upperCaseValue = inputValue.value.toString().toUpperCase();
-      setInputText(upperCaseValue);
+      setResult(mainValue);
       setShowCopyButton(true);
       setUpperActive(true);
       setLowerActive(false);
@@ -41,10 +41,10 @@ const Form = () => {
 
   // LowerCase Function
   const toLowerCase = () => {
-    let inputValue = document.getElementById("msgBox");
+    const mainValue = inputText.toLowerCase();
 
     setShowCopyButton(true);
-    if (inputValue.value.length === 0) {
+    if (mainValue.length === 0) {
       setShowCopyButton(false);
       Swal.fire(
         "Sorry",
@@ -52,8 +52,7 @@ const Form = () => {
         "warning"
       );
     } else {
-      let lowerCaseValue = inputValue.value.toString().toLowerCase();
-      setInputText(lowerCaseValue);
+      setResult(mainValue);
       setShowCopyButton(true);
       setLowerActive(true);
       setUpperActive(false);
@@ -88,7 +87,7 @@ const Form = () => {
         "warning"
       );
     } else {
-      setInputText(finalArray);
+      setResult(finalArray);
       setShowCopyButton(true);
       setShowCopyButton(true);
       setCapitalActive(true);
@@ -115,7 +114,7 @@ const Form = () => {
       middleLetters = middleLetters.toUpperCase();
       newArray.push(firstLetters + middleLetters);
     }
-    const finalArray = newArray.join(" ");
+    const finalArrayToggle = newArray.join(" ");
     if (sentence.length === 0) {
       setShowCopyButton(false);
       Swal.fire(
@@ -124,7 +123,7 @@ const Form = () => {
         "warning"
       );
     } else {
-      setInputText(finalArray);
+      setResult(finalArrayToggle);
       setShowCopyButton(true);
       setToggleActive(true);
       setCapitalActive(false);
@@ -140,7 +139,7 @@ const Form = () => {
 
   // Copy Function
   const copied = () => {
-    const value = document.getElementById("msgBox").value;
+    const value = document.getElementById("resultbox").value;
     if (value.length === 0) {
       Swal.fire("Sorry", "No text Found", "warning");
     } else {
@@ -151,46 +150,66 @@ const Form = () => {
 
   // Cut Function
   const cut = () => {
-    const value = document.getElementById("msgBox").value;
+    const value = document.getElementById("resultbox").value;
     if (value.length === 0) {
       Swal.fire("Sorry", "No text Found", "warning");
     } else {
       navigator.clipboard.writeText(value);
-      setInputText("");
+      setResult("");
       setShowCopyButton(false);
       Swal.fire("Cutted", "Text successfully cutted!", "success");
     }
   };
 
   return (
-    <div className="container mx-auto lg:w-8/12 md:w-10/12 w-11/12 my-6">
-      <div className="input_box w-full bg-white relative">
-        <h2 className="font-medium text-lg lg:text-2xl text-gray-500 mb-2">
-          Write on the text box
-        </h2>
-        <textarea
-          rows="10"
-          id="msgBox"
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-          className="w-full border text-gray-800 lg:px-4 lg:py-1 p-2 focus:border-pink-600 outline-none"
-        ></textarea>
-        {showCopyButton && (
-          <div className="absolute right-6 bottom-6 flex gap-4">
-            <button
-              className="bg-transparent border border-pink-600 hover:bg-pink-600 rounded hover:text-white font-medium px-2 py-1 w-max duration-300"
-              onClick={copied}
-            >
-              Copy
-            </button>
-            <button
-              className="bg-transparent border border-pink-600 hover:bg-pink-600 rounded hover:text-white font-medium px-2 py-1 w-max duration-300"
-              onClick={cut}
-            >
-              Cut
-            </button>
+    <div className="container mx-auto lg:w-8/12 md:w-10/12 w-11/12 lg:my-16 my-8">
+      <div className="input_box w-full bg-white">
+        <div className="textareas flex w-full gap-2">
+          {/* Give Value Box */}
+          <div className="box_1 w-full">
+            <h2 className="font-medium text-sm lg:text-2xl text-gray-500 mb-2">
+              Write on the text box
+            </h2>
+            <textarea
+              rows="10"
+              id="msgBox"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              className="w-full border text-gray-800 lg:px-4 lg:py-1 p-2 focus:border-pink-600 outline-none"
+            ></textarea>
           </div>
-        )}
+
+          {/* Get Result Box  */}
+          <div className="box_2 w-full relative">
+            <h2 className="font-medium text-sm lg:text-2xl text-gray-500 mb-2">
+              Your Results
+            </h2>
+            <textarea
+              rows="10"
+              id="resultbox"
+              value={result}
+              readOnly
+              className="w-full border text-gray-800 lg:px-4 lg:py-1 p-2 focus:border-pink-600 outline-none"
+            ></textarea>
+            {/* Copy Cut Buttons with conditional rendering */}
+            {showCopyButton && (
+              <div className="absolute right-6 bottom-6 flex gap-4">
+                <button
+                  className="bg-transparent border border-pink-600 hover:bg-pink-600 rounded hover:text-white font-medium px-2 py-1 w-max duration-300"
+                  onClick={copied}
+                >
+                  Copy
+                </button>
+                <button
+                  className="bg-transparent border border-pink-600 hover:bg-pink-600 rounded hover:text-white font-medium px-2 py-1 w-max duration-300"
+                  onClick={cut}
+                >
+                  Cut
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
       <div className="buttons flex justify-center items-center flex-wrap lg:flex-nowrap gap-4 my-4">
         <button
