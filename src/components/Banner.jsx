@@ -1,6 +1,6 @@
 import React from "react";
 
-const Banner = () => {
+const Banner = ({ text }) => {
   const background =
     "https://images.pexels.com/photos/448835/pexels-photo-448835.jpeg?auto=compress&cs=tinysrgb&w=1600";
   return (
@@ -14,9 +14,7 @@ const Banner = () => {
         backgroundSize: "cover",
       }}
     >
-      <h1 className="lg:text-8xl text-4xl font-bold text-white">
-        Text Converter
-      </h1>
+      <h1 className="lg:text-8xl text-4xl font-bold text-white">{text}</h1>
     </div>
   );
 };

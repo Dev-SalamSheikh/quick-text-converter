@@ -1,12 +1,15 @@
-import Banner from "./components/Banner";
-import Form from "./components/Form";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import TextConverter from "./pages/TextConverter";
+import ImageToTextConverter from "./pages/ImagetoTextConverter";
 
 function App() {
   return (
-    <div className="App">
-      <Banner />
-      <Form />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<TextConverter />} />
+        <Route path="/imgtotext" element={<ImageToTextConverter />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
